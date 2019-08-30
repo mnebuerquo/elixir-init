@@ -1,0 +1,12 @@
+#!/bin/sh
+
+project=$(basename "${1}")
+
+./mix phx.new "${project}" --no-webpack
+
+cp go "./${project}/"
+cp mix "./${project}/"
+cp run "./${project}/"
+cp pretty "./${project}/"
+
+mv "${project}" ../
