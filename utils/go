@@ -11,6 +11,12 @@ else
 	PORTSTR="-p ${PORT}:${PORT}"
 fi
 
+if [ -z "${NETWORK}" ]; then
+	NETSTR=""
+else
+	NETSTR="--network=${NAME}_${NETWORK}"
+fi
+
 ENVFILE="./.env"
 
 touch "${ENVFILE}"
@@ -21,6 +27,7 @@ docker run \
 	--name "${NAME}_iex" \
 	--env-file "${ENVFILE}" \
 	${PORTSTR} \
+	${NETSTR} \
 	-v "${PWD}:/app" \
 	-v "${PWD}/elixir-mix:/root/.mix" \
 	-w /app \

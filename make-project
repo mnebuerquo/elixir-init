@@ -1,12 +1,24 @@
 #!/bin/sh
 
+IMAGE="elixir:1.8.1-alpine"
+PWD=$(pwd)
+
+go() {
+docker run \
+	-it \
+	--rm=true \
+	-v "${PWD}:/app" \
+	-v "${PWD}/elixir-mix:/root/.mix" \
+	-w /app \
+	"${IMAGE}" $@
+}
+
 project=$(basename "${1}")
 
-./mix phx.new "${project}" --no-webpack
+go mix local.hex --force
+go mix archive.install hex phx_new 1.4.9 --force
 
-cp go "./${project}/"
-cp mix "./${project}/"
-cp run "./${project}/"
-cp pretty "./${project}/"
+go mix phx.new "${project}" --no-webpack --no-html
+cp utils/* "./${project}/"
 
 mv "${project}" ../

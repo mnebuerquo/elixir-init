@@ -1,0 +1,6 @@
+#!/bin/sh
+
+PWD=$(pwd)
+NAME=$(basename "${PWD}")
+
+docker volume rm "${NAME}_pg_data"

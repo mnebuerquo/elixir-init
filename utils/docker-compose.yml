@@ -1,0 +1,23 @@
+version: '3.2'
+services:
+
+  pg:
+    image: postgres:10.0-alpine
+    networks:
+      - internal
+    ports:
+      - 5432:5432
+    volumes:
+      - pg_data:/var/lib/postgresql/data/pg_data
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ${COMPOSE_PROJECT_NAME}_dev
+      POSTGRES_USER: postgres
+      POSTGRES_HOST: pg
+      POSTGRES_PORT: 5432
+      PGDATA: /var/lib/postgresql/data/pg_data
+
+networks:
+  internal:
+volumes:
+  pg_data:
