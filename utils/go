@@ -2,7 +2,7 @@
 
 IMAGE="elixir:1.8.1-alpine"
 PWD=$(pwd)
-NAME=$(basename "${PWD}")
+DCNAME=$(basename "${PWD}")
 
 if [ -z "${PORT}" ]; then
 	PORTSTR=""
@@ -14,17 +14,25 @@ fi
 if [ -z "${NETWORK}" ]; then
 	NETSTR=""
 else
-	NETSTR="--network=${NAME}_${NETWORK}"
+	NETSTR="--network=${DCNAME}_${NETWORK}"
 fi
 
 ENVFILE="./.env"
 
 touch "${ENVFILE}"
 
+if [ -z "${NAME}" ]; then
+	# no name specified, so leave blank so docker will make a random name
+	NAMESTR=""
+else
+	NAME="${DCNAME}_${NAME}"
+	NAMESTR="--name ${NAME}"
+fi
+
 docker run \
 	-it \
 	--rm=true \
-	--name "${NAME}_iex" \
+	${NAMESTR} \
 	--env-file "${ENVFILE}" \
 	${PORTSTR} \
 	${NETSTR} \

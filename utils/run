@@ -2,6 +2,7 @@
 
 set -a
 PORT=4000
+NETWORK=internal
 set +a
 
 ./mix phx.server
